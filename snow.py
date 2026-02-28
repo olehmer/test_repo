@@ -12,8 +12,11 @@ def clear_screen():
 
 def get_terminal_size():
     """Get terminal dimensions."""
-    size = os.get_terminal_size()
-    return size.columns, size.lines
+    try:
+        size = os.get_terminal_size()
+        return size.columns, size.lines
+    except OSError:
+        return 80, 24  # Fallback to standard terminal size
 
 def snow_animation(duration=60):
     """Generate snow animation in the terminal.
