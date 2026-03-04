@@ -6,6 +6,17 @@ import time
 import sys
 import os
 
+# ANSI color codes for rainbow colors
+COLORS = [
+    '\033[91m',  # Red
+    '\033[93m',  # Yellow
+    '\033[92m',  # Green
+    '\033[96m',  # Cyan
+    '\033[94m',  # Blue
+    '\033[95m',  # Magenta
+]
+RESET = '\033[0m'  # Reset to default color
+
 def clear_screen():
     """Clear the terminal screen."""
     os.system('clear' if os.name == 'posix' else 'cls')
@@ -32,6 +43,7 @@ def snow_animation(duration=60):
         snowflakes.append({
             'x': random.randint(0, width - 1),
             'y': random.randint(0, height - 1),
+            'color': random.choice(COLORS),
         })
 
     start_time = time.time()
@@ -58,10 +70,11 @@ def snow_animation(duration=60):
                 if flake['y'] >= height:
                     flake['y'] = 0
                     flake['x'] = random.randint(0, width - 1)
+                    flake['color'] = random.choice(COLORS)
 
-                # Place snowflake in grid
+                # Place snowflake in grid with color
                 if 0 <= flake['y'] < height and 0 <= flake['x'] < width:
-                    grid[int(flake['y'])][int(flake['x'])] = '*'
+                    grid[int(flake['y'])][int(flake['x'])] = flake['color'] + '*' + RESET
 
             # Print the grid
             for row in grid:
